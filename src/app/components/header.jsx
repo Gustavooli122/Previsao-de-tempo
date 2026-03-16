@@ -6,10 +6,13 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Check } from "lucide-react";
 
-export default function Header(){
+
+export default function Header({buscarCity}){
     const [aberto, setAberto] = useState(false);
     const [selecionado, setSelecionado]= useState([]);
+    const [cidade,setCidade]=useState("");
 
+     
     const items = [["Temperatura","Celsius (°C)","Fahrenheit (°F)"],["Velocidade do vento","km/h","mph"],["Precipitação","Milímetros (mm)","Polegadas (pol.)"]]
 
     function toggle(e){
@@ -26,7 +29,7 @@ export default function Header(){
 return(
 
     
-    <header className="flex flex-col  gap-12">
+    <header className="flex flex-col sm:col-span-3 mb-5 gap-12">
 
     <div className="flex justify-between items-center">
 
@@ -40,9 +43,9 @@ return(
                 <span className="bg-gray-200 h-[3px] rounded-sm"/>
             </div>
             
-            <button onClick={()=> setAberto(!aberto)} className="text-[#fffffd] sm:flex hidden items-center gap-2"><Settings className="text-[#fffffd] w-5"/>Unidades <ChevronDown className="text-[#fffffd]"/></button>
+            <button onClick={()=> setAberto(!aberto)} className="text-[#fffffd] sm:flex hidden items-center gap-2 sm:relative"><Settings className="text-[#fffffd] w-5"/>Unidades <ChevronDown className="text-[#fffffd]"/></button>
         {aberto && (
-            <section className="absolute right-0  z-20 bg-[#262640] top-18 text-gray-200 text-[12px] flex flex-col gap-3 justify-center text-sm px-3 py-4 rounded-lg border border-[#333355]">
+            <section className="absolute right-0 sm:right-auto sm:top-24 md:top-28 z-20 bg-[#262640] top-18 text-gray-200 text-[12px] flex flex-col gap-3 justify-center text-sm px-3 py-4 rounded-lg border border-[#333355]">
                 <p>Mudar para o sistema imperial</p>
       {
         items.map((e, index)=>(
@@ -63,11 +66,11 @@ return(
         </div>
     </div>
     <div className="w-full flex justify-center">
-        <h1 className="text-[#fffffd] text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl  w-96 font-sans font-bold ">Como está o céu hoje?</h1>
+        <h1 className="text-[#fffffd] text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl  w-96 sm:w-full font-sans font-bold ">Como está o céu hoje?</h1>
     </div>
-    <section className="text-xl flex flex-col gap-3 w-full m-auto">
-        <div className="bg-[#25253f] rounded-xl p-3  text-gray-200 flex items-center gap-3 "><Search className="ml-3"/><input type="text" className="bg-transparent outline-none " placeholder="Buscar um lugar..."/></div>
-        <button className="bg-[#4657d9] hover:bg-indigo-400 text-gray-100 w-full rounded-xl p-3">Buscar</button>
+    <section className="text-xl flex flex-col sm:flex-row md:flex-row  gap-3 w-full sm:w-[60%] m-auto">
+        <div className="bg-[#25253f] rounded-xl p-3 w-full  text-gray-200 flex items-center gap-3 "><Search className="ml-3"/><input type="text" value={cidade} onChange={(e)=> setCidade(e.target.value)} className="bg-transparent outline-none " placeholder="Buscar um lugar..."/></div>
+        <button onClick={()=> buscarCity(cidade)} className="bg-[#4657d9] hover:bg-indigo-400 text-gray-100 w-full sm:w-1/3 md:w-1/3 rounded-xl p-3">Buscar</button>
     </section>
     
     </header>
