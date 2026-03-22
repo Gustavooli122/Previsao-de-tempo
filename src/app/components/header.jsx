@@ -29,7 +29,7 @@ export default function Header({buscarCity}){
 return(
 
     
-    <header className="flex flex-col sm:col-span-3 mb-5 gap-12">
+    <header className="flex flex-col h-[25%] sm:col-span-3 mb-5 gap-12">
 
     <div className="flex justify-between items-center">
 

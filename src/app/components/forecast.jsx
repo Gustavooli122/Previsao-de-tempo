@@ -3,7 +3,7 @@ export default function Forecast(){
    
     const cards = [["Ter","/imgs/icon-rain.webp","Garoa","18°","40°"],["Qua","/imgs/icon-drizzle.webp","chuva","18°","40°"],["Qui","/imgs/icon-sunny.webp","ensolarado","18°","40°"],["Sex","/imgs/icon-partly-cloudy.webp","tempo normal","18°","40°"],["Sáb","/imgs/icon-storm.webp","tempo com trovoes","18°","40°"],["Dom","/imgs/icon-snow.webp","neve","18°","40°"],["Seg","/imgs/icon-fog.webp","vento","18°","40°"]];
     return(
-        <main className="col-span-3">
+        <main className="col-span-3 h-[25%]">
             <h1 className="font-medium text-white mb-3">Previsão diária</h1>
             <section className="w-full grid grid-cols-3 sm:grid-cols-4  gap-3">
                   {cards.map((e,i)=>(

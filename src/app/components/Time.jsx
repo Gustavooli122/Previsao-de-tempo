@@ -15,7 +15,7 @@ const dataFormatada = agora.toLocaleDateString("pt-BR", {
     
    
     return(
-    <main className="flex flex-col gap-10 sm:col-span-2">
+    <main className="flex flex-col  h-[25%] gap-10 sm:col-span-2">
        <section className="relative">
        <Image  width={500} height={500} className="w-full" src={'/imgs/bg-today-small.svg'} alt="fundo-estrelado" />
        <section className="absolute top-[10%] w-full  flex flex-col gap-5 items-center">
