@@ -15,14 +15,14 @@ const dataFormatada = agora.toLocaleDateString("pt-BR", {
     
    
     return(
-    <main className="flex flex-col  h-[25%] gap-10 sm:col-span-2">
+    <main className="flex flex-col  gap-10 sm:col-span-2">
        <section className="relative">
        <Image  width={500} height={500} className="w-full" src={'/imgs/bg-today-small.svg'} alt="fundo-estrelado" />
        <section className="absolute top-[10%] w-full  flex flex-col gap-5 items-center">
 
          <div className="text-center  flex flex-col gap-3"> <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold">{cidade?`${cidade}, ${estado}`:"Digite um lugar, para buscar"}</h1>
         <p className="text-gray-300 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl ">{dataHora?dataHora:dataFormatada}</p></div> 
-   <div className="w-full relative flex  items-center gap-5"> <Image src={'/imgs/icon-sunny.webp'} className="w-1/3" width={140} height={140}/><h1 className="text-gray-50  text-7xl sm:text-8xl md:text-9xl font-bold italic"> {temperatura?temperatura:"20"}°</h1></div>
+   <div className="w-full relative flex  items-center gap-5"> <Image src={'/imgs/icon-sunny.webp'} className="w-1/3" width={140} height={140} alt="ícone do clima"/><h1 className="text-gray-50  text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold italic"> {temperatura?temperatura:"20"}°</h1></div>
        </section>
       
        </section>

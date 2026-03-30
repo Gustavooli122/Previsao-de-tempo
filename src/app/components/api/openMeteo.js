@@ -14,7 +14,7 @@ return null
 const {latitude, longitude, name, admin1} = geoData.results[0]
 
 const climaResponse = await fetch(
-`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,windspeed_10m&hourly=temperature_2m,weathercode&timezone=auto`
+`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,windspeed_10m&hourly=temperature_2m,weathercode&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`
 )
 const climaData = await climaResponse.json()
 
@@ -22,9 +22,9 @@ const temperatura = climaData.current.temperature_2m
 const sensacaoTermica = climaData.current.apparent_temperature
 const umidade = climaData.current.relative_humidity_2m
 const precipitacao = climaData.current.precipitation
-const vento = climaData.current.windspeed_10m
+const vento = climaData.current.wind_speed_10m
 const tempoHoras = climaData.hourly
-
+const daily = climaData.daily;
 const data = new Date()
 
 const dataHora = data.toLocaleDateString("pt-BR",{
@@ -43,7 +43,8 @@ vento,
 umidade,
 sensacaoTermica,
 precipitacao,
-tempoHoras
+tempoHoras,
+daily
 }
 
 }

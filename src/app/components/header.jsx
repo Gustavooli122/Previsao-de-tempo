@@ -1,31 +1,56 @@
 "use client";
-
+import { useContext } from "react";
 import { Search } from "lucide-react";
 import { Settings } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Check } from "lucide-react";
+import { UnitContext } from "../contexts/unitContext";
 
 
 export default function Header({buscarCity}){
     const [aberto, setAberto] = useState(false);
     const [selecionado, setSelecionado]= useState([]);
     const [cidade,setCidade]=useState("");
-
+    const [units,setUnits]= useContext(UnitContext)
      
-    const items = [["Temperatura","Celsius (°C)","Fahrenheit (°F)"],["Velocidade do vento","km/h","mph"],["Precipitação","Milímetros (mm)","Polegadas (pol.)"]]
+    const items = [
+  {
+    type: "temp",
+    label: "Temperatura",
+    options: [
+      { label: "Celsius (°C)", value: "°C" },
+      { label: "Fahrenheit (°F)", value: "°F" }
+    ]
+  },
+  {
+    type: "wind",
+    label: "Velocidade do vento",
+    options: [
+      { label: "km/h", value: "kmh" },
+      { label: "mph", value: "mph" }
+    ]
+  },
+  {
+    type: "rain",
+    label: "Precipitação",
+    options: [
+      { label: "Milímetros (mm)", value: "mm" },
+      { label: "Polegadas (pol.)", value: "in" }
+    ]
+  }
+];
 
-    function toggle(e){
-        if(selecionado.includes(e)){
-            setSelecionado(()=> selecionado.filter((elemento)=> elemento !== e))
-        }
-        else{
-            setSelecionado([...selecionado,e]);
-        }
+
+function handleSelect(type, value){
+  setUnits(prev=>(
+    {
+        ...prev,[type]:value
     }
-
-
-
+     
+  ))
+  console.log(units)
+}
 return(
 
     
@@ -48,11 +73,14 @@ return(
             <section className="absolute right-0 sm:right-auto sm:top-24 md:top-28 z-20 bg-[#262640] top-18 text-gray-200 text-[12px] flex flex-col gap-3 justify-center text-sm px-3 py-4 rounded-lg border border-[#333355]">
                 <p>Mudar para o sistema imperial</p>
       {
-        items.map((e, index)=>(
- <div key={index} className="space-y-2"> <hr className="opacity-35" />
-      <p className="opacity-70">{e[0]}</p>
-      <p className="flex justify-between items-center cursor-pointer" onClick={()=> toggle(e[1])}> {e[1]} {selecionado.includes(e[1]) && (<Check className="w-5"/>)}</p>
-      <p  className="flex justify-between items-center cursor-pointer" onClick={()=> toggle(e[2])}> {e[2]} {selecionado.includes(e[2]) && (<Check className="w-5"/>)}</p>
+        items.map((e)=>(
+ <div key={e.type} className="space-y-2"> <hr className="opacity-35" />
+      <p className="opacity-70">{e.label}</p>
+      {
+        e.options.map(item=> (<p className="flex justify-between items-center cursor-pointer" onClick={()=>handleSelect(e.type, item.value)}> {item.label} {units[e.type] === item.value && (<Check className="w-5"/>)}</p>))
+      }
+      
+      
      
     </div>
 
