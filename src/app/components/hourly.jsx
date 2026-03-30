@@ -20,7 +20,7 @@ export default function Hourly({horaTempo, getWeatherInfo}){
 
      function selectDay(day){
         setDaySelect(day)
-        setChevronDown(false)
+        setChevronDown(prev => !prev)
      }
       function filterByDay(hourly,selectDay){
         if(!hourly) return [];
