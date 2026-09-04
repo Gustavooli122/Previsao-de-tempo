@@ -1,6 +1,7 @@
 "use client";
 
-import Image from "next/image"
+import Image from "next/image";
+import { UnitContext } from "../contexts/unitContext";
 export default function Time({temperatura, sensasaoTermica, vento, preciptacao,umidade,dataHora,cidade,estado}){
 
 
@@ -13,6 +14,8 @@ const dataFormatada = agora.toLocaleDateString("pt-BR", {
   year: "numeric"
 });
     
+   const {units,convert} = UnitContext;
+  
    
     return(
     <main className="flex flex-col  gap-10 sm:col-span-2">
@@ -29,7 +32,7 @@ const dataFormatada = agora.toLocaleDateString("pt-BR", {
        <section className="grid grid-cols-2  gap-4">
          <div className="bg-[#25253f] flex flex-col justify-between rounded-xl border-2 border-[#373659] gap-3 p-4"><p className="text-sm sm:text-base md:text-lg  text-gray-400">Sensação térmica de</p><p className="text-white text-2xl sm:text-3xl">{sensasaoTermica?sensasaoTermica:"20"}°</p></div>
          <div className="bg-[#25253f] flex flex-col gap-3 justify-between p-4 rounded-xl border-2 border-[#373659] "><p className=" text-gray-400 text-sm sm:text-base md:text-lg">Humidade</p><p className="text-white text-2xl sm:text-3xl">{umidade?umidade:"25"}%</p></div>
-         <div className="bg-[#25253f] flex flex-col gap-3 justify-between p-4 rounded-xl border-2 border-[#373659] "><p className="text-sm sm:text-base md:text-lg text-gray-400">Vento</p><p className="text-white text-2xl sm:text-3xl">{vento?vento:"20"} km/h</p></div>
+         <div className={`bg-[#25253f] flex flex-col gap-3 justify-between p-4 rounded-xl border-2 border-[#373659] `}><p className="text-sm sm:text-base md:text-lg text-gray-400">Vento</p><p className="text-white text-2xl sm:text-3xl">{vento?vento:"20"} </p></div>
          <div className="bg-[#25253f] flex flex-col gap-3 p-4 justify-between rounded-xl border-2 border-[#373659] "><p className="text-sm sm:text-base md:text-lg text-gray-400">Preciptação</p><p className="text-white text-2xl sm:text-3xl md:text-4xl">{preciptacao?preciptacao:"30"} mm</p></div>
         
        </section>

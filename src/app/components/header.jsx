@@ -12,8 +12,8 @@ export default function Header({buscarCity}){
     const [aberto, setAberto] = useState(false);
     const [selecionado, setSelecionado]= useState([]);
     const [cidade,setCidade]=useState("");
-    const [units,setUnits]= useContext(UnitContext)
-     
+    const {units,setUnits}= useContext(UnitContext)
+  
     const items = [
   {
     type: "temp",

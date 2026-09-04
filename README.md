@@ -1,3 +1,5 @@
+Esse é um projeto desenvolvido baseado em um design da plataforma Front end mentor
+
 Objetivo do projeto
 
 Esse projeto é um web app de previsão do tempo onde o usuário:
