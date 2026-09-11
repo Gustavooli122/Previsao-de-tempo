@@ -2,11 +2,34 @@
 
 import Image from "next/image";
 import { UnitContext } from "../contexts/unitContext";
+import { useContext } from "react";
+import { items } from "../hooks/menuHeader";
 export default function Time({temperatura, sensasaoTermica, vento, preciptacao,umidade,dataHora,cidade,estado}){
 
 
 const agora = new Date();
+function valueUnit(type){
+if(type === "feels"){
+  return sensasaoTermica
+}
+ if(type === "wind"){
+  return vento
+}
+ if(type === "temp"){
+  return temperatura
+}
+ if(type === "humidity"){
+  return umidade
+}
+ if(type === "rain"){
+  return preciptacao
+}
+else{
+  return alert("Ocorreu um erro ao fazer a busca!");
+}
+}
 
+console.log(valueUnit("temp"))
 const dataFormatada = agora.toLocaleDateString("pt-BR", {
   weekday: "long",
   day: "numeric",
@@ -14,9 +37,11 @@ const dataFormatada = agora.toLocaleDateString("pt-BR", {
   year: "numeric"
 });
     
-   const {units,convert} = UnitContext;
+   const {units,convert} = useContext(UnitContext) ;
+
   
-   
+  
+console.log(units[0].unit)
     return(
     <main className="flex flex-col  gap-10 sm:col-span-2">
        <section className="relative">
@@ -25,17 +50,19 @@ const dataFormatada = agora.toLocaleDateString("pt-BR", {
 
          <div className="text-center  flex flex-col gap-3"> <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold">{cidade?`${cidade}, ${estado}`:"Digite um lugar, para buscar"}</h1>
         <p className="text-gray-300 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl ">{dataHora?dataHora:dataFormatada}</p></div> 
-   <div className="w-full relative flex  items-center gap-5"> <Image src={'/imgs/icon-sunny.webp'} className="w-1/3" width={140} height={140} alt="ícone do clima"/><h1 className="text-gray-50  text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold italic"> {temperatura?temperatura:"20"}°</h1></div>
+   <div className="w-full relative flex  items-center gap-5"> <Image src={'/imgs/icon-sunny.webp'} className="w-1/3" width={140} height={140} alt="ícone do clima"/><h1 className={`text-gray-50 ${temperatura?"text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl":"text-2xl sm:text-3xl md:text-4xl lg:text-5xl "}  font-bold italic`}> {temperatura?convert(temperatura, "temp",units[4].unit):``}</h1></div>
        </section>
       
        </section>
-       <section className="grid grid-cols-2  gap-4">
-         <div className="bg-[#25253f] flex flex-col justify-between rounded-xl border-2 border-[#373659] gap-3 p-4"><p className="text-sm sm:text-base md:text-lg  text-gray-400">Sensação térmica de</p><p className="text-white text-2xl sm:text-3xl">{sensasaoTermica?sensasaoTermica:"20"}°</p></div>
-         <div className="bg-[#25253f] flex flex-col gap-3 justify-between p-4 rounded-xl border-2 border-[#373659] "><p className=" text-gray-400 text-sm sm:text-base md:text-lg">Humidade</p><p className="text-white text-2xl sm:text-3xl">{umidade?umidade:"25"}%</p></div>
-         <div className={`bg-[#25253f] flex flex-col gap-3 justify-between p-4 rounded-xl border-2 border-[#373659] `}><p className="text-sm sm:text-base md:text-lg text-gray-400">Vento</p><p className="text-white text-2xl sm:text-3xl">{vento?vento:"20"} </p></div>
-         <div className="bg-[#25253f] flex flex-col gap-3 p-4 justify-between rounded-xl border-2 border-[#373659] "><p className="text-sm sm:text-base md:text-lg text-gray-400">Preciptação</p><p className="text-white text-2xl sm:text-3xl md:text-4xl">{preciptacao?preciptacao:"30"} mm</p></div>
-        
-       </section>
+       <section className="grid grid-cols-2  gap-4">{
+        units.map((unit,index)=>(
+          
+<div key={index} className={`bg-[#25253f] ${unit.typeUnit === "temp"?"hidden":"flex"} flex-col justify-between rounded-xl border-2 border-[#373659] gap-3 p-4`}><p className="text-sm sm:text-base md:text-lg  text-gray-400">{unit.name}</p><p className="text-white text-2xl sm:text-3xl">{cidade?convert(valueUnit(unit.typeUnit),unit.typeUnit,unit.unit):"Busque uma cidade"}</p></div>
+       )  
+      
+) 
+       }</section>
+      
 
     </main>)
 }

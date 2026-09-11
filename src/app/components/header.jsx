@@ -3,81 +3,70 @@ import { useContext } from "react";
 import { Search } from "lucide-react";
 import { Settings } from "lucide-react";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState,useEffect, useRef } from "react";
 import { Check } from "lucide-react";
 import { UnitContext } from "../contexts/unitContext";
+import { items } from "../hooks/menuHeader";
 
 
 export default function Header({buscarCity}){
     const [aberto, setAberto] = useState(false);
-    const [selecionado, setSelecionado]= useState([]);
     const [cidade,setCidade]=useState("");
-    const {units,setUnits}= useContext(UnitContext)
-  
-    const items = [
-  {
-    type: "temp",
-    label: "Temperatura",
-    options: [
-      { label: "Celsius (°C)", value: "°C" },
-      { label: "Fahrenheit (°F)", value: "°F" }
-    ]
-  },
-  {
-    type: "wind",
-    label: "Velocidade do vento",
-    options: [
-      { label: "km/h", value: "kmh" },
-      { label: "mph", value: "mph" }
-    ]
-  },
-  {
-    type: "rain",
-    label: "Precipitação",
-    options: [
-      { label: "Milímetros (mm)", value: "mm" },
-      { label: "Polegadas (pol.)", value: "in" }
-    ]
+    const {units,setUnits}= useContext(UnitContext);
+    const menuRef = useRef(null);
+
+useEffect(()=>{
+
+function handleClickOutside(event){
+
+  if(menuRef.current && !menuRef.current.contains(event.target)){
+    setAberto(false);
   }
-];
 
+}  document.addEventListener("pointerdown",handleClickOutside);
 
-function handleSelect(type, value){
-  setUnits(prev=>(
-    {
-        ...prev,[type]:value
-    }
-     
-  ))
-  console.log(units)
+  return ()=>{ document.removeEventListener("pointerdown", handleClickOutside)}
+
+},[])
+    function handleSelect(type, value) {
+  setUnits(prev =>
+    prev.map(unit =>
+      unit.typeUnit === type
+        ? { ...unit, unit: value }
+        : unit
+    )
+  );
 }
 return(
 
     
     <header className="flex flex-col h-[25%] sm:col-span-3 mb-5 gap-12">
 
-    <div className="flex justify-between items-center">
+   <div className="flex justify-between items-center">
 
         <i><img className="h-9" src="/imgs/logo.svg" alt="logo" /></i> 
 
-        <div className="bg-[#252441]  justify-center items-center p-0 sm:p-2 rounded-sm flex gap-2  text-sm"> 
+        <div ref={menuRef}  className="bg-[#252441]  justify-center items-center p-0 sm:p-2 rounded-sm flex gap-2  text-sm"> 
             
-             <div onClick={()=> setAberto(!aberto)} className="flex sm:hidden flex-col bg-[#02012b] gap-2 w-8  ">
-                <span className="bg-gray-200 h-[3px] rounded-sm"/>
-                <span className="bg-gray-200 h-[3px] rounded-sm"/>
-                <span className="bg-gray-200 h-[3px] rounded-sm"/>
+             <div onClick={()=> setAberto(!aberto)} className={`flex ${aberto?"justify-between":""} sm:hidden flex-col bg-[#02012b] gap-2 w-8 h-8.5`}>
+                <span className={`bg-gray-200 ${aberto?"-rotate-45  translate-y-4 translate-x-0":""} h-[3px] rounded-sm`}/>
+                <span className={`bg-gray-200 ${aberto?"hidden":"flex"} h-[3px] rounded-sm`}/>
+                <span className={` bg-gray-200 ${aberto?"rotate-45 -translate-y-4 1translate-x-4":""} h-[3px] rounded-sm`}/>
             </div>
             
-            <button onClick={()=> setAberto(!aberto)} className="text-[#fffffd] sm:flex hidden items-center gap-2 sm:relative"><Settings className="text-[#fffffd] w-5"/>Unidades <ChevronDown className="text-[#fffffd]"/></button>
+            <button onClick={()=> setAberto(!aberto)} className="text-[#fffffd] sm:flex hidden items-center gap-2 sm:relative"><Settings className="text-[#fffffd] w-5"/>Unidades <ChevronDown className={`text-[#fffffd] ${aberto?"rotate-180":"rotate-0"}`}/></button>
         {aberto && (
-            <section className="absolute right-0 sm:right-auto sm:top-24 md:top-28 z-20 bg-[#262640] top-18 text-gray-200 text-[12px] flex flex-col gap-3 justify-center text-sm px-3 py-4 rounded-lg border border-[#333355]">
+            <section className="absolute  right-0 sm:right-auto sm:top-24 md:top-28 z-20 bg-[#262640] top-18 text-gray-200 text-[12px] flex flex-col gap-3 justify-center text-sm px-3 py-4 rounded-lg border border-[#333355]">
                 <p>Mudar para o sistema imperial</p>
       {
         items.map((e)=>(
  <div key={e.type} className="space-y-2"> <hr className="opacity-35" />
+ 
       <p className="opacity-70">{e.label}</p>
+
       {
-        e.options.map(item=> (<p className="flex justify-between items-center cursor-pointer" onClick={()=>handleSelect(e.type, item.value)}> {item.label} {units[e.type] === item.value && (<Check className="w-5"/>)}</p>))
+        e.options.map((item, index)=>(
+        <p key={index} className="flex justify-between items-center cursor-pointer" onClick={()=>handleSelect(e.type, item.value)}> {item.label} {units.find(u => u.typeUnit === e.type)?.unit === item.value && (<Check className="w-5"/>)}</p>))
       }
       
       
@@ -100,6 +89,8 @@ return(
         <div className="bg-[#25253f] rounded-xl p-3 w-full  text-gray-200 flex items-center gap-3 "><Search className="ml-3"/><input type="text" value={cidade} onChange={(e)=> setCidade(e.target.value)} className="bg-transparent outline-none " placeholder="Buscar um lugar..."/></div>
         <button onClick={()=> buscarCity(cidade)} className="bg-[#4657d9] hover:bg-indigo-400 text-gray-100 w-full sm:w-1/3 md:w-1/3 rounded-xl p-3">Buscar</button>
     </section>
+
+   
     
     </header>
 )

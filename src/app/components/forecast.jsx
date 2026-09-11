@@ -1,8 +1,10 @@
 import Image from "next/image"
+import { useContext } from "react";
+import { UnitContext } from "../contexts/unitContext";
 export default function Forecast({dias, fetchWeather}){
    
   
-
+const {units, convert} = useContext(UnitContext)
     function formatDay(daily){
         if(!daily) return [];
         return daily.time.map((date, i)=>({
@@ -29,7 +31,7 @@ export default function Forecast({dias, fetchWeather}){
       })}</h1>
                         <Image src={weather.icon} width={200} height={200} alt={weather.label}/>
                     </div>
-                    <div className="text-md sm:text-base md:text-lg flex justify-between"><p>{day.min} °</p><p>{day.max} °</p></div>
+                    <div className="text-xs sm:text-sm  md:text-md lg:text-lg flex justify-between "><p>{convert(day.min,units[4].typeUnit, units[4].unit)}</p><p>{convert(day.max,units[4].typeUnit, units[4].unit)}</p></div>
                 </section>
             )
                   }

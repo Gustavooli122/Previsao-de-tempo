@@ -18,8 +18,11 @@ vento,
 umidade,
 sensacaoTermica,
 precipitacao,tempoHoras,daily} = dados;
+const [items, setItems] = useState()
 
- 
+ function itemsMenu(item){
+  return setItems(item);
+ }
   
   function getWeatherInfo(code) {
   if (code === 0) return { label: "Ensolarado", icon: "/imgs/icon-sunny.webp" };
@@ -64,8 +67,8 @@ precipitacao,tempoHoras,daily} = dados;
 
     return(
         <div className="p-5 sm:p-6 md:p-12 lg:px-16 xl:mx-40 flex flex-col grid-cols-3 sm:grid  gap-5">
-    <Header buscarCity={buscarCidade}/>
-    <Time temperatura={dados.temperatura} sensasaoTermica={dados.sensacaoTermica} vento={dados.vento} preciptacao={dados.precipitacao} umidade={dados.umidade} dataHora={dados.dataHora} cidade={dados.cidade} estado={dados.estado} />
+    <Header buscarCity={buscarCidade} itemsMenu={itemsMenu}/>
+    <Time temperatura={dados.temperatura}  sensasaoTermica={dados.sensacaoTermica} vento={dados.vento} preciptacao={dados.precipitacao} items={items} umidade={dados.umidade} dataHora={dados.dataHora} cidade={dados.cidade} estado={dados.estado} />
    <Hourly horaTempo={dados.tempoHoras} getWeatherInfo={getWeatherInfo}/>
    <Forecast dias={dados.daily} fetchWeather={getWeatherInfo}/>
     </div>

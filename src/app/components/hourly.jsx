@@ -2,12 +2,14 @@
 import { useState } from "react"
 import { ChevronDown } from "lucide-react" 
 import Image from "next/image"
+import { useContext } from "react";
+import { UnitContext } from "../contexts/unitContext";
 export default function Hourly({horaTempo, getWeatherInfo}){
     const [daySelect, setDaySelect]=useState("segunda-feira")
     const  [chevronDown,setChevronDown]= useState(false)
 
     
-
+  
     const menu = [
   "segunda-feira",
   "terça-feira",
@@ -17,6 +19,7 @@ export default function Hourly({horaTempo, getWeatherInfo}){
   "sábado",
   "domingo"
 ];
+const {units, convert} = useContext(UnitContext)
 
      function selectDay(day){
         setDaySelect(day)
@@ -43,7 +46,7 @@ export default function Hourly({horaTempo, getWeatherInfo}){
     
 
      return(
-        <main className="bg-[#2f2f49] h-full rounded-2xl  p-3 ">
+        <main className="bg-[#2f2f49]  h-full rounded-2xl  p-3 ">
             <div  className="font-medium relative text-white flex flex-col items-center sm:flex-col md:flex-row gap-2 justify-between mb-3"> <h1>Previsão por hora</h1><button className="rounded-md bg-[#3d3c5d] w-full flex justify-between gap-2 p-2" onClick={()=>setChevronDown(prev => !prev)}> <p>{daySelect}</p> {chevronDown?<ChevronDown className="transition-transform ease-in-out rotate-180"/>:<ChevronDown className="transition-transform ease-in-out rotate-0"/>}
             
             
@@ -59,7 +62,7 @@ export default function Hourly({horaTempo, getWeatherInfo}){
             hour: "2-digit",
             minute: "2-digit"
           })}</p>
-                  </div>  <h2 className="text-lg font-medium text-white">{e.temp}°</h2>
+                  </div>  <h2 className="text-xs sm:text-sm  md:text-md lg:text-lg font-medium text-white">{convert(e.temp,units[4].typeUnit, units[4].unit)}</h2>
                   </section>)
                 }
                   
