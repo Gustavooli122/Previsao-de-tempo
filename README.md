@@ -276,5 +276,3 @@ renderização dinâmica
 organização de componentes
 
 Ou seja, não é um projeto trivial.
-
-💡 Vou te falar uma coisa sincer
